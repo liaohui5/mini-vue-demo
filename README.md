@@ -26,3 +26,7 @@ npm run dev
 # 注意路径
 open http://localhost:8080/example/helloWorld
 ```
+
+## TODO
+
+- [ ] 解决 vite 打包 esm 的文件没有压缩的问题 [issue](https://github.com/vitejs/vite/issues/8848)
