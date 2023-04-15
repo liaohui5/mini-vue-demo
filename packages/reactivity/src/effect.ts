@@ -14,7 +14,9 @@ export class ReactiveEffect {
   public isActive: boolean = true; // 如果被清空了就标记为 false
   public scheduler?: CallableFunction; // 如果传入就, 第一次调用 fn, 然后触发依赖时调用这个函数
   public onStop?: CallableFunction; // 在调用 stop 时调用
-  public constructor(public fn: CallableFunction) {}
+  public constructor(public fn: CallableFunction, options: IEffectOptions = {}) {
+    Object.keys(options).length && extend(this, options); // 不为空才赋值
+  }
 
   // 执行 fn
   public run() {
@@ -67,10 +69,7 @@ interface IEffectRunner {
 
 // 响应式对象(reactive/ref返回值)影响函数
 export function effect(fn: CallableFunction, options: IEffectOptions = {}): IEffectRunner {
-  const reactiveEffect = new ReactiveEffect(fn);
-
-  // 设置 options 所有属性 到 reactiveEffect, 方便扩展
-  extend(reactiveEffect, options);
+  const reactiveEffect = new ReactiveEffect(fn, options);
 
   // 先执行一遍 fn
   reactiveEffect.run();
